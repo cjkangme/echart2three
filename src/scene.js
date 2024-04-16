@@ -1,8 +1,11 @@
 import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import * as echarts from "echarts";
 import "echarts-gl";
 import exportGL2OBJ from "./exportGL2OBJ";
 import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
+import { OBJExporter } from "three/examples/jsm/Addons.js";
+import Store from "./store";
 
 function dataUrlToBlob(strUrl) {
   var parts = strUrl.split(/[:;,]/),
@@ -119,9 +122,20 @@ const camera = new THREE.PerspectiveCamera(
   1000
 );
 camera.position.z = 5;
+camera.updateProjectionMatrix();
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
+const canvas = document.body.appendChild(renderer.domElement);
+
+const color = 0xffffff;
+const intensity = 3;
+const light = new THREE.DirectionalLight(color, intensity);
+light.position.set(-1, 2, 4); // X, Y, Z 벡터 방향
+
+new OrbitControls(camera, canvas);
+scene.add(light);
+
+renderer.render(scene, camera);
 
 let myBlob = self.Blob || self.MozBlob || self.WebKitBlob || toString;
 myBlob = myBlob.call ? myBlob.bind(self) : Blob;
@@ -137,12 +151,17 @@ const blob =
 
 blob.name = "export.obj";
 
-const downloadLink = document.createElement("a");
-downloadLink.href = URL.createObjectURL(blob);
-downloadLink.download = blob.name;
-downloadLink.click();
-
+// const downloadLink = document.createElement("a");
+// downloadLink.href = URL.createObjectURL(blob);
+// downloadLink.download = blob.name;
+// downloadLink.click();
 const loader = new OBJLoader();
+const exporter = new OBJExporter();
+const store = new Store();
 loader.load(URL.createObjectURL(blob), function (object) {
   scene.add(object);
+  store.addMesh(object);
+  renderer.render(scene, camera);
 });
+
+console.log(store.meshes);
