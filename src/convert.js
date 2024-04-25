@@ -145,7 +145,7 @@ const blob =
 const loader = new OBJLoader();
 
 loader.load(URL.createObjectURL(blob), function (object) {
-  object.position.set(200, 0, 0);
+  object.position.set(250, 0, 0);
   console.log("obj", object);
   scene.add(object);
   renderer.render(scene, camera);
@@ -166,7 +166,6 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 const color = 0xffffff;
-const intensity = 1;
 const light = new THREE.DirectionalLight(color, 3);
 const ambient = new THREE.AmbientLight(0x404040, 2); // soft white light
 light.position.set(0, 5, 10); // X, Y, Z 벡터 방향
@@ -202,10 +201,6 @@ const vertices = new THREE.Float32BufferAttribute(
 );
 const geometry = new THREE.BufferGeometry();
 geometry.setAttribute("position", vertices);
-const indices = [
-  0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6, 7, 5, 4, 0, 5, 0, 3, 1, 7, 6, 1, 6, 2, 3, 2,
-  6, 3, 6, 5, 0, 1, 7, 0, 7, 4,
-];
 
 // geometry.setIndex(indices);
 const material = new THREE.MeshPhongMaterial({

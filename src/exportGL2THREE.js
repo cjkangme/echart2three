@@ -2,6 +2,7 @@ import * as THREE from "three";
 import convertMesh from "./utils/object/convertMesh";
 import convertLine from "./utils/object/convertLine";
 import convertLabels from "./utils/object/convertLabels";
+import convertMeshNoIndex from "./utils/object/convertMeshNoIndex";
 
 const exportGL2THREE = (echarts, chartInstance, componentQuery) => {
   const group = new THREE.Group(); // Create a group to hold the meshes
@@ -36,7 +37,7 @@ const exportGL2THREE = (echarts, chartInstance, componentQuery) => {
 
       switch (meshType) {
         case "color":
-          group.add(convertMesh(mesh));
+          group.add(convertMeshNoIndex(mesh));
           break;
         case "meshLines3D":
           group.add(convertLine(mesh));
