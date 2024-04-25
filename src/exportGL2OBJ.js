@@ -262,7 +262,6 @@ function exportGL2OBJ(echarts, chartInstance, componentQuery, opts) {
 
         fStr.push("f " + indices.join(" "));
       }
-
       objStr +=
         vStr.join("\n") +
         "\n" +
@@ -279,7 +278,6 @@ function exportGL2OBJ(echarts, chartInstance, componentQuery, opts) {
       indexStart += geometry.vertexCount;
     }
   });
-
   // var mtlStr = [CREDIT];
   var mtlStr = [];
   for (var matName in materialLib) {
@@ -302,6 +300,7 @@ function exportGL2OBJ(echarts, chartInstance, componentQuery, opts) {
     obj: objStr,
     mtl: mtlStr.join("\n"),
     textures: textures,
+    coordSys: coordSys,
   };
 }
 
