@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import convertMesh from "./utils/object/convertMesh";
 import convertLine from "./utils/object/convertLine";
 import convertLabels from "./utils/object/convertLabels";
 import convertMeshNoIndex from "./utils/object/convertMeshNoIndex";
+import convertSprite2Sphere from "./utils/object/convertSprite2Sphere";
 
 const exportGL2THREE = (echarts, chartInstance, componentQuery) => {
   const group = new THREE.Group(); // Create a group to hold the meshes
@@ -42,6 +42,10 @@ const exportGL2THREE = (echarts, chartInstance, componentQuery) => {
         case "meshLines3D":
           group.add(convertLine(mesh));
           break;
+        case "sdfSprite":
+          group.add(convertSprite2Sphere(mesh));
+          break;
+        // labels는 앞 단계에서 별도로 만들어서 넣어줌
         case "labels":
           break;
         default:
